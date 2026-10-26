@@ -11,6 +11,8 @@ const Industry = require('./models/Industry');
 const Technology = require('./models/Technology');
 const Testimonial = require('./models/Testimonial');
 const Statistic = require('./models/Statistic');
+const Seo = require('./models/Seo');
+const { DEFAULT_SEO_PAGES } = require('./controllers/seoController');
 
 const seedDatabase = async () => {
   try {
@@ -24,7 +26,8 @@ const seedDatabase = async () => {
       Industry.deleteMany({}),
       Technology.deleteMany({}),
       Testimonial.deleteMany({}),
-      Statistic.deleteMany({})
+      Statistic.deleteMany({}),
+      Seo.deleteMany({})
     ]);
 
     // 1. Admin User
@@ -465,6 +468,10 @@ const seedDatabase = async () => {
 
     await Statistic.insertMany(statistics);
     console.log(`[Seed] Inserted ${statistics.length} Statistics.`);
+
+    // 8. SEO Metadata for pages
+    await Seo.insertMany(DEFAULT_SEO_PAGES);
+    console.log(`[Seed] Inserted ${DEFAULT_SEO_PAGES.length} Page SEO configurations.`);
 
     console.log('\n[Seed Success] All database seed operations completed successfully!\n');
   } catch (err) {

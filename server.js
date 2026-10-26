@@ -18,6 +18,10 @@ const startServer = async () => {
     if (serviceCount === 0) {
       console.log('[Server Startup] Empty database detected. Triggering initial seed...');
       await seedDatabase();
+    } else {
+      // Ensure SEO default records exist if database was already seeded earlier
+      const { ensureDefaultSeoExists } = require('./controllers/seoController');
+      await ensureDefaultSeoExists();
     }
 
     // 3. Start Express Server with port retry fallback if EADDRINUSE
